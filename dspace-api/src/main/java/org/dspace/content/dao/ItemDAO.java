@@ -17,14 +17,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import java.util.UUID;
-=======
->>>>>>> Metadata query method
-=======
-import java.util.UUID;
->>>>>>> Resolve UUID in rest service rather than DAO
 
 /**
  * Database Access Object interface class for the Item object.
@@ -55,11 +48,7 @@ public interface ItemDAO extends DSpaceObjectLegacySupportDAO<Item>
 
     public Iterator<Item> findByMetadataField(Context context, MetadataField metadataField, String value, boolean inArchive) throws SQLException;
 
-<<<<<<< HEAD
     public Iterator<Item> findByMetadataQuery(Context context, List<List<MetadataField>> listFieldList, List<String> query_op, List<String> query_val, List<UUID> collectionUuids, String regexClause, int offset, int limit) throws SQLException;
-=======
-    public Iterator<Item> findByMetadataQuery(Context context, List<List<Integer>> listFieldList, List<String> query_op, List<String> query_val, List<UUID> collectionUuids, String regexClause) throws SQLException;
->>>>>>> Change query_field part of signature
 
     public Iterator<Item> findByAuthorityValue(Context context, MetadataField metadataField, String authority, boolean inArchive) throws SQLException;
 

@@ -17,7 +17,10 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.UUID;
+=======
+>>>>>>> Metadata query method
 
 /**
  * Database Access Object interface class for the Item object.

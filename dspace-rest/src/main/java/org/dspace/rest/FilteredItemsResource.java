@@ -197,5 +197,4 @@ public class FilteredItemsResource extends Resource {
 		}
 		return uuids;
 	}
-    
 }

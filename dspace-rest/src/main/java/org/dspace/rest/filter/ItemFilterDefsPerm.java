@@ -9,7 +9,10 @@ package org.dspace.rest.filter;
 
 import java.sql.SQLException;
 
+<<<<<<< HEAD
 import org.apache.log4j.Logger;
+=======
+>>>>>>> New REST commands
 import org.dspace.authorize.factory.AuthorizeServiceFactory;
 import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.Bitstream;

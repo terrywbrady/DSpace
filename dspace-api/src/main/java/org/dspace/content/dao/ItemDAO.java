@@ -55,7 +55,11 @@ public interface ItemDAO extends DSpaceObjectLegacySupportDAO<Item>
 
     public Iterator<Item> findByMetadataField(Context context, MetadataField metadataField, String value, boolean inArchive) throws SQLException;
 
+<<<<<<< HEAD
     public Iterator<Item> findByMetadataQuery(Context context, List<List<MetadataField>> listFieldList, List<String> query_op, List<String> query_val, List<UUID> collectionUuids, String regexClause, int offset, int limit) throws SQLException;
+=======
+    public Iterator<Item> findByMetadataQuery(Context context, List<List<Integer>> listFieldList, List<String> query_op, List<String> query_val, List<UUID> collectionUuids, String regexClause) throws SQLException;
+>>>>>>> Change query_field part of signature
 
     public Iterator<Item> findByAuthorityValue(Context context, MetadataField metadataField, String authority, boolean inArchive) throws SQLException;
 

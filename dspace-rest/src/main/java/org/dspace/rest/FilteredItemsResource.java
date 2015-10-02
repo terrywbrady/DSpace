@@ -127,10 +127,23 @@ public class FilteredItemsResource extends Resource {
             	regexClause = "";
             }
 
+<<<<<<< HEAD
     		List<UUID> uuids = getUuidsFromStrings(collSel);
     		List<List<MetadataField>> listFieldList = getMetadataFieldsList(context, query_field);    		
 
             Iterator<org.dspace.content.Item> childItems = itemService.findByMetadataQuery(context, listFieldList, query_op, query_val, uuids, regexClause, offset, limit);
+=======
+    		List<UUID> uuids = new ArrayList<UUID>();
+    		for(String s: collSel) {
+    			try {
+    				uuids.add(UUID.fromString(s));
+    			} catch (IllegalArgumentException e) {
+    				log.warn("Invalid collection UUID: " + s);
+    			}
+    		}
+
+            Iterator<org.dspace.content.Item> childItems = itemService.findByMetadataQuery(context, query_field, query_op, query_val, uuids, regexClause);
+>>>>>>> Resolve UUID in rest service rather than DAO
              
             itemFilterSet.processSaveItems(context, childItems, true, expand);
     	    writeStats(siteService.findSite(context), UsageEvent.Action.VIEW, user_ip, user_agent, xforwarderfor, headers, request, context);

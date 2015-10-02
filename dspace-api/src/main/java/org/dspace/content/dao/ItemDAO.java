@@ -18,9 +18,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.UUID;
 =======
 >>>>>>> Metadata query method
+=======
+import java.util.UUID;
+>>>>>>> Resolve UUID in rest service rather than DAO
 
 /**
  * Database Access Object interface class for the Item object.

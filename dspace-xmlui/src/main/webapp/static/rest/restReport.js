@@ -15,7 +15,7 @@ var Report = function() {
 	}
 	
 	//Override this method is sortable.js has been included
-	this.hasSortable = function() {
+	this.hasSorttable = function() {
 		return false;
 	}
 	

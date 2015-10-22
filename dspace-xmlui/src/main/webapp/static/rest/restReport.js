@@ -3,9 +3,8 @@
   This code is an optional add-on for DSpace.
   https://github.com/DSpace-Labs/DSpace-REST-Reports
 */
-var Report = function(dspaceVer) {
+var Report = function() {
 	var self = this;
-	this.ver = dspaceVer;
 	this.COLL_LIMIT = 500;
 	this.COUNT_LIMIT = 500;
 	this.ITEM_LIMIT = 100;

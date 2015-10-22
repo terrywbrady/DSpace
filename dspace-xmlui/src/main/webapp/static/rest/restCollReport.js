@@ -4,7 +4,7 @@
   https://github.com/DSpace-Labs/DSpace-REST-Reports
 */
 var CollReport = function() {
-	Report.call(this, 5);
+	Report.call(this);
 	this.hasSorttable = function(){return true;}
 	
 	this.COLL_LIMIT = 25;

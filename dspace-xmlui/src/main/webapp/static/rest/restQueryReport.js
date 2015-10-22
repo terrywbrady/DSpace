@@ -4,7 +4,7 @@
   https://github.com/DSpace-Labs/DSpace-REST-Reports
 */
 var QueryReport = function() {
-	Report.call(this, 5);
+	Report.call(this);
 	
 	this.hasSorttable = function(){return true;}
 	

@@ -58,6 +58,8 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     private Group admins;
 
     /** The logo bitstream */
+    @OneToOne
+    @JoinColumn(name = "logo_bitstream_id")
     private Bitstream logo = null;
 
     // Keys for accessing Community metadata

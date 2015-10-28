@@ -52,13 +52,13 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "communities", cascade = {CascadeType.PERSIST})
     private List<Collection> collections = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin")
     /** The default group of administrators */
     private Group admins;
 
     /** The logo bitstream */
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logo_bitstream_id")
     private Bitstream logo = null;
 

@@ -41,8 +41,6 @@ public class Collection extends DSpaceObject implements DSpaceObjectLegacySuppor
     private Integer legacyId;
 
     /** The logo bitstream */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "logo_bitstream_id")
     private Bitstream logo;
 
     /** The item template */

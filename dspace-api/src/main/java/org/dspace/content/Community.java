@@ -46,10 +46,10 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     )
     private List<Community> parentCommunities = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "parentCommunities")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "subCommunities")
     private List<Community> subCommunities = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "communities", cascade = {CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "collections", cascade = {CascadeType.PERSIST})
     private List<Collection> collections = new ArrayList<>();
 
     @OneToOne
@@ -58,8 +58,6 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     private Group admins;
 
     /** The logo bitstream */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "logo_bitstream_id")
     private Bitstream logo = null;
 
     // Keys for accessing Community metadata
@@ -92,7 +90,6 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
      * 
      * @return the logo of the community, or <code>null</code>
      */
-    @OneToOne(fetch = FetchType.LAZY)
     public Bitstream getLogo()
     {
         return logo;

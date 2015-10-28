@@ -417,6 +417,10 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
 
         MetadataField metadataField = metadataValue.getMetadataField();
         if (metadataField == null) {
+        	log.warn("TBTB: metadataValue: "+metadataValue);
+        	log.warn("TBTB: schema: "+schema);
+        	log.warn("TBTB: element: "+element);
+        	log.warn("TBTB: qualifier: "+qualifier);
         	return false;
         }
         MetadataSchema metadataSchema = metadataField.getMetadataSchema();

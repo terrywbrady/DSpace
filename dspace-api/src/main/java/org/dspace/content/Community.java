@@ -58,7 +58,7 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     private Group admins;
 
     /** The logo bitstream */
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logo_bitstream_id")
     private Bitstream logo = null;
 

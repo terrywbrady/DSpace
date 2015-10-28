@@ -92,6 +92,7 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
      * 
      * @return the logo of the community, or <code>null</code>
      */
+    @OneToOne(fetch = FetchType.LAZY)
     public Bitstream getLogo()
     {
         return logo;

@@ -168,8 +168,11 @@ var Auth = function(loginPayload) {
 				self.saveToken(data);
 				self.callback();
 			},
-			error : function(data) {
-				alert("Auth failure ");
+			error: function(xhr, status, errorThrown) {
+				alert("Error in /rest/login "+ status+ " " + errorThrown);
+			},
+			complete: function(xhr, status) {
+				self.callback();
 			}
 		});		
 	}
@@ -335,6 +338,11 @@ var MetadataFields = function(report) {
 			dataType: "json",
 			success: function(data){
 				self.initFields(data, report);
+			},
+			error: function(xhr, status, errorThrown) {
+				alert("Error in /rest/registries/schema "+ status+ " " + errorThrown);
+			},
+			complete: function(xhr, status) {
 			}
 		});		
 	}
@@ -474,6 +482,11 @@ var CommunitySelector = function(report, parent, paramCollSel) {
 			for(var commindex in TOPCOMMS) {
 				self.addCommLabel(collSel, COMMS, COMMS[commindex], 0, paramCollSel);
 			};
+		},
+		error: function(xhr, status, errorThrown) {
+			alert("Error in /rest/communities "+ status+ " " + errorThrown);
+		},
+		complete: function(xhr, status) {
 		}
 	});	
 

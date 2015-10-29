@@ -25,7 +25,7 @@ var QueryReport = function() {
 			"query_field[]" : [],
 			"query_op[]"    : [],
 			"query_val[]"   : [],
-			"collSel[]"       : $("#collSel").val(),
+			"collSel[]"     : ($("#collSel").val() == null) ? [""] : $("#collSel").val(),
 			limit           : this.myReportParameters.getLimit(),
 			offset          : this.myReportParameters.getOffset(),
 			"expand"        : "parentCollection,metadata",
@@ -64,6 +64,13 @@ var QueryReport = function() {
 			success: function(data){
 			    data.metadata = $("#show-fields select").val();
 			    self.drawItemFilterTable(data);
+			    self.spinner.stop();
+	  		    $("button").attr("disabled", false);
+			},
+			error: function(xhr, status, errorThrown) {
+				alert("Error in /rest/filtered-items "+ status+ " " + errorThrown);
+			},
+			complete: function(xhr, status, errorThrown) {
 			    self.spinner.stop();
 	  		    $("button").attr("disabled", false);
 			}

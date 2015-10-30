@@ -127,8 +127,14 @@ var QueryReport = function() {
 		this.displayItems(data["query-annotation"],
 			this.myReportParameters.getOffset(),
 			this.myReportParameters.getLimit(),
-			function(){self.updateOffset(false);}, 
-			function(){self.updateOffset(true);}
+			function(){
+			    self.myReportParameters.updateOffset(false);
+			    self.runQuery();
+			}, 
+			function(){
+				self.myReportParameters.updateOffset(true);
+			    self.runQuery();
+			}
 		);
 		
 		if (this.hasSorttable()) {

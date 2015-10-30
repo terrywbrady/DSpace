@@ -66,7 +66,8 @@ var Report = function() {
 		$("#itemdiv h3").text(itemsTitle);
 		if (offset > 0) $("#prev").show();
 		$("#prev").off("click").on("click", funcdec);
-		if (count == limit) $("#next").show();
+		//in case of filters, always allow next
+		$("#next").show();
 		$("#next").off("click").on("click", funcinc);
 	}
 	
@@ -213,11 +214,11 @@ var ReportParameters = function(defaultParams, prmstr) {
 	}
 
 	this.getNextOffset = function() {
-		return getOffset() + getLimit();
+		return this.getOffset() + this.getLimit();
 	}
 
 	this.getPrevOffset = function() {
-		var v = getOffset() - getLimit();
+		var v = this.getOffset() - this.getLimit();
 		return v < 0 ? 0 : v;
 	}
 
@@ -226,14 +227,14 @@ var ReportParameters = function(defaultParams, prmstr) {
 		return $.isNumeric(limit) ? Number(limit) : this.limit;
 	}
 
-	function updateOffset(increment) {
+	this.updateOffset = function(increment) {
 		var val = $("#offset").val();
 		var lim = $("#limit").val();
 		if ($.isNumeric(val) && $.isNumeric(lim)) {
 			if (increment) {
-				$("#offset").val(getNextOffset());				
+				$("#offset").val(this.getNextOffset());				
 			} else {
-				$("#offset").val(getPrevOffset());				
+				$("#offset").val(this.getPrevOffset());				
 			}
 		}		
 	}

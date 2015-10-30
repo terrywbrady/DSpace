@@ -37,7 +37,7 @@ var Report = function() {
 	}
 	this.myAuth = new Auth(this.getLoginPayload());
 	this.myAuth.callback = function(data) {
-		spinner.stop();
+		self.spinner.stop();
 	}
 	this.myHtmlUtil = new HtmlUtil();
 	this.spinner = new Spinner({

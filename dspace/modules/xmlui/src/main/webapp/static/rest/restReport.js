@@ -129,7 +129,7 @@ var Report = function() {
 			if ($(node).is("hr")) {
 				data += "||";
 			} else {
-				data += $(node).text().replace(/\n/g," ").replace(/"/g,"'");
+				data += $(node).text().replace(/\n/g," ").replace(/"/g,"\"\"");
 				if ($(node).is("div:not(:last-child)")) {
 					data += "||";
 				}

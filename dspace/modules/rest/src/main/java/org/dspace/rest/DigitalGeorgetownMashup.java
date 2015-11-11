@@ -138,7 +138,6 @@ public class DigitalGeorgetownMashup extends Resource {
         			}   
     			}    			
     		} else if (Actions.search.name().equals(action)) {
-    			log.info("TBTB1"+search);
     			DiscoverQuery query = new DiscoverQuery();
     			query.setQuery(search);
     			query.setMaxResults(rows);
@@ -155,18 +154,15 @@ public class DigitalGeorgetownMashup extends Resource {
     				discoverResult = SearchUtils.getSearchService().search(context, query);    				    				    				
     			}
     			
-    			log.info("TBTB2");
     			DGMashupResults results = new DGMashupResults(
     				discoverResult.getTotalSearchResults(), 
     				discoverResult.getStart(), 
     				discoverResult.getMaxResults(), 
     				search
     			); 
-    			log.info("TBTB3");
     			mashupStatus.setResults(results);
     			for(DSpaceObject obj: discoverResult.getDspaceObjects()) {
     				if (obj instanceof Item) {
-    	    			log.info("TBTB4");
     					addResult(results, context, (Item)obj);
     			        mashupStatus.success();
     				}
@@ -211,27 +207,36 @@ public class DigitalGeorgetownMashup extends Resource {
 	
 	private void addResult(DGMashupResults results, org.dspace.core.Context context, Item item) throws SQLException {
 		DGMashupResult result = new DGMashupResult();
+		log.info("TBTB1");
 		results.getResults().add(result);
 		List<String> creator = getMetadataList(item, "dc", "contributor", "author");
+		log.info("TBTB2");
 		addToList(item, creator, "dc", "creator", Item.ANY);
+		log.info("TBTB3");
 		result.setCreator(creator);
 		result.setDateCreated(getMetadata(item, "dc", "date", "created"));
 		result.setDescription(getMetadataList(item, "dc", "description", null));
 		result.setHandle(item.getHandle());
+		log.info("TBTB4");
 		String iurl = handleService.resolveToURL(context, item.getHandle());
 		result.setItemUrl(iurl);
 		result.setPermalink("http://hdl.handle.net/"+item.getHandle());
 		result.setSubject(getMetadataList(item, "dc", "subject", Item.ANY));
+		log.info("TBTB5");
 		String thumbnail = null;
+		log.info("TBTB6");
 		for(Bundle bun: item.getBundles()){
+			log.info("TBTB7");
 			if (!"THUMBNAIL".equals(bun.getName())) continue;
 			List<Bitstream> bits = bun.getBitstreams();
-			if (bits.size() > 0) {
+			if ((bits.size() > 0) && (iurl != null)) {
 				thumbnail = iurl.replace("handle", "bitstream/handle") + bits.get(0).getName() + "?sequence=" + bits.get(0).getSequenceID();
 			}
 		}
+		log.info("TBTB8");
 		result.setThumbnailUrl(thumbnail);
 		result.setTitle(item.getName());
+		log.info("TBTB9");
 	}
 	
 	private void getCollections(DGMashupResponse mashupStatus, org.dspace.core.Context context) throws SQLException {

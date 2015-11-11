@@ -8,9 +8,6 @@
 package org.dspace.rest.common;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.dspace.core.Context;
-
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**

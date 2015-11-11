@@ -31,14 +31,12 @@ import org.dspace.rest.common.DGMashupCommunity;
 import org.dspace.rest.common.DGMashupRepository;
 import org.dspace.rest.common.DGMashupResult;
 import org.dspace.rest.common.DGMashupResults;
-import org.dspace.rest.exceptions.ContextException;
 import org.dspace.rest.common.DGMashupResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.HttpHeaders;
 
 import java.io.UnsupportedEncodingException;
@@ -225,13 +223,18 @@ public class DigitalGeorgetownMashup extends Resource {
 		log.info("TBTB5");
 		String thumbnail = null;
 		log.info("TBTB6");
-		for(Bundle bun: item.getBundles()){
-			log.info("TBTB7");
-			if (!"THUMBNAIL".equals(bun.getName())) continue;
-			List<Bitstream> bits = bun.getBitstreams();
-			if ((bits.size() > 0) && (iurl != null)) {
-				thumbnail = iurl.replace("handle", "bitstream/handle") + bits.get(0).getName() + "?sequence=" + bits.get(0).getSequenceID();
-			}
+		if (iurl != null) {
+			for(Bundle bun: item.getBundles()){
+				log.info("TBTB7");
+				if (!"THUMBNAIL".equals(bun.getName())) continue;
+				List<Bitstream> bits = bun.getBitstreams();
+				if (bits == null) continue;
+				if (bits.size() > 0) {
+					log.info("TBTB7a");
+					Bitstream firstBit = bits.get(0);
+					thumbnail = iurl.replace("handle", "bitstream/handle") + firstBit.getName() + "?sequence=" + firstBit.getSequenceID();
+				}
+			}			
 		}
 		log.info("TBTB8");
 		result.setThumbnailUrl(thumbnail);

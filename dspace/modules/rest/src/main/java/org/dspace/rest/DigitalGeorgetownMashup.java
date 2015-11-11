@@ -125,7 +125,8 @@ public class DigitalGeorgetownMashup extends Resource {
         			for(String handle: itemHandles.split(",")) {
         				handle = handle.trim();
         				DSpaceObject obj = handleService.resolveToObject(context, handle);
-        				if (obj instanceof Item) {
+        				if (obj == null) {
+        				} else if (obj instanceof Item) {
         					addResult(results, context, (Item)obj);
         			        mashupStatus.success();
         					long numFound = results.getNumFound()+1;
@@ -137,6 +138,7 @@ public class DigitalGeorgetownMashup extends Resource {
         			}   
     			}    			
     		} else if (Actions.search.name().equals(action)) {
+    			log.info("TBTB1"+search);
     			DiscoverQuery query = new DiscoverQuery();
     			query.setQuery(search);
     			query.setMaxResults(rows);
@@ -153,15 +155,18 @@ public class DigitalGeorgetownMashup extends Resource {
     				discoverResult = SearchUtils.getSearchService().search(context, query);    				    				    				
     			}
     			
+    			log.info("TBTB2");
     			DGMashupResults results = new DGMashupResults(
     				discoverResult.getTotalSearchResults(), 
     				discoverResult.getStart(), 
     				discoverResult.getMaxResults(), 
     				search
     			); 
+    			log.info("TBTB3");
     			mashupStatus.setResults(results);
     			for(DSpaceObject obj: discoverResult.getDspaceObjects()) {
     				if (obj instanceof Item) {
+    	    			log.info("TBTB4");
     					addResult(results, context, (Item)obj);
     			        mashupStatus.success();
     				}

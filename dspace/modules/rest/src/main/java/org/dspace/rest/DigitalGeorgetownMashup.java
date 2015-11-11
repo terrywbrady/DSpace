@@ -234,8 +234,10 @@ public class DigitalGeorgetownMashup extends Resource {
 				log.info("TBTB7ac - "+bits.size());
 				if (bits.size() > 0) {
 					Bitstream firstBit = bits.get(0);
-					log.info("TBTB7a " + firstBit);
+					log.info("TBTB7ad " + firstBit);
 					if (firstBit == null) continue;
+					log.info("TBTB7ae " + firstBit);
+					log.info("TBTB7af " + firstBit);
 					thumbnail = iurl.replace("handle", "bitstream/handle") + firstBit.getName() + "?sequence=" + firstBit.getSequenceID();
 				}
 			}			

@@ -168,12 +168,12 @@ public class DigitalGeorgetownMashup extends Resource {
     			}
     		} else {
     			mashupStatus.failure("The purpose of this service is to permit Blackboard to navigate DigitalGeorgetown");
-
     		}
-    		return mashupStatus;
+    		context.complete();
         } 
         catch (Exception e)
         {
+            mashupStatus.failure("DG Mashup Error " + e.getMessage());
             processException("Something went wrong while reading collections, ContextError. Message: " + e.getMessage(), context);
         }
         finally

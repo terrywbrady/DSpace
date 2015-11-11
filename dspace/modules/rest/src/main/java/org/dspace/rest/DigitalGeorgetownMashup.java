@@ -225,7 +225,7 @@ public class DigitalGeorgetownMashup extends Resource {
 		log.info("TBTB6");
 		if (iurl != null) {
 			for(Bundle bun: item.getBundles()){
-				log.info("TBTB7");
+				log.info("TBTB7 - "+bun.getName());
 				if (!"THUMBNAIL".equals(bun.getName())) continue;
 				List<Bitstream> bits = bun.getBitstreams();
 				if (bits == null) continue;

@@ -31,6 +31,7 @@ import org.dspace.rest.common.DGMashupCommunity;
 import org.dspace.rest.common.DGMashupRepository;
 import org.dspace.rest.common.DGMashupResult;
 import org.dspace.rest.common.DGMashupResults;
+import org.dspace.rest.exceptions.ContextException;
 import org.dspace.rest.common.DGMashupResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -170,18 +171,16 @@ public class DigitalGeorgetownMashup extends Resource {
 
     		}
     		return mashupStatus;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
-		} finally {
-            if(context != null) {
-                try {
-                    context.complete();
-                } catch (SQLException e) {
-                    log.error(e.getMessage() + " occurred while trying to close");
-                }
-            }
+        } 
+        catch (Exception e)
+        {
+            processException("Something went wrong while reading collections, ContextError. Message: " + e.getMessage(), context);
         }
+        finally
+        {
+            processFinally(context);
+        }
+        return mashupStatus;
     }
     
     private void addToList(Item item, List<String> list, String schema, String element, String qualifier) {

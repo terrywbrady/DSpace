@@ -228,12 +228,8 @@ public class DigitalGeorgetownMashup extends Resource {
 				log.info("TBTB7 - "+bun.getName());
 				if (!"THUMBNAIL".equals(bun.getName())) continue;
 				log.info("TBTB7aa - "+bun);
-				List<Bitstream> bits = bun.getBitstreams();
-				log.info("TBTB7ab - "+bits);
-				if (bits == null) continue;
-				log.info("TBTB7ac - "+bits.size());
-				if (bits.size() > 0) {
-					Bitstream firstBit = bits.get(0);
+				if (bun.getBitstreams().size() > 0) {
+					Bitstream firstBit = bun.getBitstreams().get(0);
 					log.info("TBTB7ad " + firstBit);
 					if (firstBit == null) continue;
 					log.info("TBTB7ae " + firstBit);

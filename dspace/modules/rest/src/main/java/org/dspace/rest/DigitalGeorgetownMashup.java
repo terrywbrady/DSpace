@@ -174,7 +174,7 @@ public class DigitalGeorgetownMashup extends Resource {
         catch (Exception e)
         {
             mashupStatus.failure("DG Mashup Error " + e.getMessage());
-            processException("Something went wrong while reading collections, ContextError. Message: " + e.getMessage(), context);
+            processException("DG Mashup Error . Message: " + e.getClass() + " " + e.getMessage(), context);
         }
         finally
         {

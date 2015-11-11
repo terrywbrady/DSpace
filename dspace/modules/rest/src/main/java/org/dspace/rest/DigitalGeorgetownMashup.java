@@ -16,31 +16,22 @@ import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
-import org.dspace.content.MetadataField;
-import org.dspace.content.MetadataSchema;
-import org.dspace.content.Metadatum;
-import org.dspace.content.Site;
-import org.dspace.core.ConfigurationManager;
+import org.dspace.content.MetadataValue;
+import org.dspace.content.factory.ContentServiceFactory;
+import org.dspace.content.service.CommunityService;
+import org.dspace.content.service.ItemService;
+import org.dspace.content.service.SiteService;
 import org.dspace.discovery.DiscoverQuery;
 import org.dspace.discovery.DiscoverResult;
 import org.dspace.discovery.SearchUtils;
-import org.dspace.handle.HandleManager;
-import org.dspace.rest.common.MetadataEntry;
-import org.dspace.rest.exceptions.ContextException;
+import org.dspace.handle.factory.HandleServiceFactory;
+import org.dspace.handle.service.HandleService;
 import org.dspace.rest.common.DGMashupCollection;
 import org.dspace.rest.common.DGMashupCommunity;
 import org.dspace.rest.common.DGMashupRepository;
 import org.dspace.rest.common.DGMashupResult;
 import org.dspace.rest.common.DGMashupResults;
 import org.dspace.rest.common.DGMashupResponse;
-import org.dspace.rest.common.ItemFilter;
-import org.dspace.rest.common.ItemFilterQuery;
-import org.dspace.rest.filter.ItemFilterSet;
-import org.dspace.rest.filter.OP;
-import org.dspace.storage.rdbms.DatabaseManager;
-import org.dspace.storage.rdbms.TableRowIterator;
-import org.dspace.usage.UsageEvent;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -50,7 +41,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.HttpHeaders;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +54,10 @@ import java.util.List;
 public class DigitalGeorgetownMashup extends Resource {
     private static Logger log = Logger.getLogger(DigitalGeorgetownMashup.class);
     private enum Actions{getCollections,getItemsByHandle,search;}
+    protected HandleService handleService = HandleServiceFactory.getInstance().getHandleService();
+    protected ItemService itemService = ContentServiceFactory.getInstance().getItemService();
+    protected SiteService siteService = ContentServiceFactory.getInstance().getSiteService();
+    protected CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
 
     /**
      * @param action
@@ -129,7 +123,7 @@ public class DigitalGeorgetownMashup extends Resource {
         			mashupStatus.setResults(results);
         			for(String handle: itemHandles.split(",")) {
         				handle = handle.trim();
-        				DSpaceObject obj = HandleManager.resolveToObject(context, handle);
+        				DSpaceObject obj = handleService.resolveToObject(context, handle);
         				if (obj instanceof Item) {
         					addResult(results, context, (Item)obj);
         			        mashupStatus.success();
@@ -148,7 +142,7 @@ public class DigitalGeorgetownMashup extends Resource {
     			query.setStart(from);
     			DiscoverResult discoverResult = null;
     			if (scopeHandle != null) {
-    				DSpaceObject obj = HandleManager.resolveToObject(context, scopeHandle.trim());
+    				DSpaceObject obj = handleService.resolveToObject(context, scopeHandle.trim());
     				if (obj != null) {
     					discoverResult = SearchUtils.getSearchService().search(context, obj, query);
     				}
@@ -191,8 +185,8 @@ public class DigitalGeorgetownMashup extends Resource {
     }
     
     private void addToList(Item item, List<String> list, String schema, String element, String qualifier) {
-    	for(Metadatum m: item.getMetadata(schema, element, qualifier, Item.ANY)) {
-    		list.add(m.value);
+    	for(MetadataValue m: itemService.getMetadata(item, schema, element, qualifier, org.dspace.content.Item.ANY)) {
+    		list.add(m.getValue());
     	}
     }
 	
@@ -220,15 +214,16 @@ public class DigitalGeorgetownMashup extends Resource {
 		result.setDateCreated(getMetadata(item, "dc", "date", "created"));
 		result.setDescription(getMetadataList(item, "dc", "description", null));
 		result.setHandle(item.getHandle());
-		String iurl = HandleManager.resolveToURL(context, item.getHandle());
+		String iurl = handleService.resolveToURL(context, item.getHandle());
 		result.setItemUrl(iurl);
 		result.setPermalink("http://hdl.handle.net/"+item.getHandle());
 		result.setSubject(getMetadataList(item, "dc", "subject", Item.ANY));
 		String thumbnail = null;
-		for(Bundle bun: item.getBundles("THUMBNAIL")){
-			Bitstream[] bits = bun.getBitstreams();
-			if (bits.length > 0) {
-				thumbnail = iurl.replace("handle", "bitstream/handle") + bits[0].getName() + "?sequence=" + bits[0].getSequenceID();
+		for(Bundle bun: item.getBundles()){
+			if (!"THUMBNAIL".equals(bun.getName())) continue;
+			List<Bitstream> bits = bun.getBitstreams();
+			if (bits.size() > 0) {
+				thumbnail = iurl.replace("handle", "bitstream/handle") + bits.get(0).getName() + "?sequence=" + bits.get(0).getSequenceID();
 			}
 		}
 		result.setThumbnailUrl(thumbnail);
@@ -236,18 +231,18 @@ public class DigitalGeorgetownMashup extends Resource {
 	}
 	
 	private void getCollections(DGMashupResponse mashupStatus, org.dspace.core.Context context) throws SQLException {
-		DGMashupRepository repo = new DGMashupRepository("All of DigitalGeorgetown", Site.getSiteHandle());
+		DGMashupRepository repo = new DGMashupRepository("All of DigitalGeorgetown", siteService.findSite(context).getHandle());
 		mashupStatus.setRepository(repo);
-		Community[] dspaceCommunities = Community.findAllTop(context);
+		List<Community> dspaceCommunities = communityService.findAllTop(context);
 		processCommunity(repo, dspaceCommunities);
 		mashupStatus.success();
 	}
 	
-	private void processCommunity(DGMashupCommunity parent, Community[] communities) throws SQLException {
+	private void processCommunity(DGMashupCommunity parent, List<Community> communities) throws SQLException {
 		if (communities == null){
 			return;
 		}
-		if (communities.length == 0) {
+		if (communities.size() == 0) {
 			return;
 		}
 		List<DGMashupCommunity> parentComms = new ArrayList<DGMashupCommunity>();
@@ -255,8 +250,8 @@ public class DigitalGeorgetownMashup extends Resource {
 		for(Community comm: communities) {
 			DGMashupCommunity dgcomm = new DGMashupCommunity(comm.getName(), comm.getHandle());
 			parentComms.add(dgcomm);
-			Collection[] colls = comm.getCollections();
-			if (colls.length > 0) {
+			List<Collection> colls = comm.getCollections();
+			if (colls.size() > 0) {
 				List<DGMashupCollection> myColls = new ArrayList<DGMashupCollection>();
 				dgcomm.setCollections(myColls);
 				for(Collection coll: colls) {

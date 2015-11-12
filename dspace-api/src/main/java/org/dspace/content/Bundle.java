@@ -43,8 +43,8 @@ public class Bundle extends DSpaceObject implements DSpaceObjectLegacySupport
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="bundle2bitstream",
-            joinColumns={@JoinColumn(name="bundle_id") },
-            inverseJoinColumns={@JoinColumn(name="bitstream_id") }
+            joinColumns={@JoinColumn(name="bundle_id", referencedColumnName = "uuid") },
+            inverseJoinColumns={@JoinColumn(name="bitstream_id", referencedColumnName = "uuid") }
     )
     @OrderColumn(name="bitstream_order")
     private List<Bitstream> bitstreams = new ArrayList<>();

@@ -18,7 +18,6 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.content.MetadataValue;
 import org.dspace.content.factory.ContentServiceFactory;
-import org.dspace.content.service.BitstreamService;
 import org.dspace.content.service.CommunityService;
 import org.dspace.content.service.ItemService;
 import org.dspace.content.service.SiteService;
@@ -58,7 +57,6 @@ public class DigitalGeorgetownMashup extends Resource {
     protected ItemService itemService = ContentServiceFactory.getInstance().getItemService();
     protected SiteService siteService = ContentServiceFactory.getInstance().getSiteService();
     protected CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
-    protected BitstreamService bitstreamService = ContentServiceFactory.getInstance().getBitstreamService();
 
     /**
      * @param action
@@ -228,10 +226,8 @@ public class DigitalGeorgetownMashup extends Resource {
 				}
 			}			
 		}
-		log.info("TBTB8");
 		result.setThumbnailUrl(thumbnail);
 		result.setTitle(item.getName());
-		log.info("TBTB9");
 	}
 	
 	private void getCollections(DGMashupResponse mashupStatus, org.dspace.core.Context context) throws SQLException {

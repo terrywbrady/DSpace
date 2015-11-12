@@ -20,6 +20,7 @@ import org.dspace.content.MetadataValue;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.CommunityService;
 import org.dspace.content.service.ItemService;
+import org.dspace.content.service.BitstreamService;
 import org.dspace.content.service.SiteService;
 import org.dspace.discovery.DiscoverQuery;
 import org.dspace.discovery.DiscoverResult;
@@ -42,6 +43,7 @@ import javax.ws.rs.core.HttpHeaders;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /*
@@ -57,6 +59,7 @@ public class DigitalGeorgetownMashup extends Resource {
     protected ItemService itemService = ContentServiceFactory.getInstance().getItemService();
     protected SiteService siteService = ContentServiceFactory.getInstance().getSiteService();
     protected CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
+    protected BitstreamService bitstreamService = ContentServiceFactory.getInstance().getBitstreamService();
 
     /**
      * @param action
@@ -218,12 +221,9 @@ public class DigitalGeorgetownMashup extends Resource {
 		result.setSubject(getMetadataList(item, "dc", "subject", Item.ANY));
 		String thumbnail = null;
 		if (iurl != null) {
-			for(Bundle bun: itemService.getBundles(item, "THUMBNAIL")){
-				for(Bitstream bit: bun.getBitstreams()) {
-					if (bit == null) continue;
-					thumbnail = iurl.replace("handle", "bitstream/handle") + bit.getName() + "?sequence=" + bit.getSequenceID();
-					break;
-				}
+			Bitstream bit = bitstreamService.getFirstBitstream(item, "THUMBNAIL");
+			if (bit != null) {
+				thumbnail = iurl.replace("handle", "bitstream/handle") + bit.getName() + "?sequence=" + bit.getSequenceID();
 			}			
 		}
 		result.setThumbnailUrl(thumbnail);

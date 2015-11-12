@@ -18,6 +18,7 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.content.MetadataValue;
 import org.dspace.content.factory.ContentServiceFactory;
+import org.dspace.content.service.BitstreamService;
 import org.dspace.content.service.CommunityService;
 import org.dspace.content.service.ItemService;
 import org.dspace.content.service.SiteService;
@@ -57,6 +58,7 @@ public class DigitalGeorgetownMashup extends Resource {
     protected ItemService itemService = ContentServiceFactory.getInstance().getItemService();
     protected SiteService siteService = ContentServiceFactory.getInstance().getSiteService();
     protected CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
+    protected BitstreamService bitstreamService = ContentServiceFactory.getInstance().getBitstreamService();
 
     /**
      * @param action
@@ -205,38 +207,24 @@ public class DigitalGeorgetownMashup extends Resource {
 	
 	private void addResult(DGMashupResults results, org.dspace.core.Context context, Item item) throws SQLException {
 		DGMashupResult result = new DGMashupResult();
-		log.info("TBTB1");
 		results.getResults().add(result);
 		List<String> creator = getMetadataList(item, "dc", "contributor", "author");
-		log.info("TBTB2");
 		addToList(item, creator, "dc", "creator", Item.ANY);
-		log.info("TBTB3");
 		result.setCreator(creator);
 		result.setDateCreated(getMetadata(item, "dc", "date", "created"));
 		result.setDescription(getMetadataList(item, "dc", "description", null));
 		result.setHandle(item.getHandle());
-		log.info("TBTB4");
 		String iurl = handleService.resolveToURL(context, item.getHandle());
 		result.setItemUrl(iurl);
 		result.setPermalink("http://hdl.handle.net/"+item.getHandle());
 		result.setSubject(getMetadataList(item, "dc", "subject", Item.ANY));
-		log.info("TBTB5");
 		String thumbnail = null;
-		log.info("TBTB6");
 		if (iurl != null) {
-			for(Bundle bun: item.getBundles()){
-				log.info("TBTB7 - "+bun.getName());
-				if (!"THUMBNAIL".equals(bun.getName())) continue;
-				if (true) continue;
-				log.info("TBTB7aa - "+bun.getBitstreams());
-				log.info("TBTB7ab - "+bun.getBitstreams().size());
-				if (bun.getBitstreams().size() > 0) {
-					Bitstream firstBit = bun.getBitstreams().get(0);
-					log.info("TBTB7ad " + firstBit);
-					if (firstBit == null) continue;
-					log.info("TBTB7ae " + firstBit);
-					log.info("TBTB7af " + firstBit);
-					thumbnail = iurl.replace("handle", "bitstream/handle") + firstBit.getName() + "?sequence=" + firstBit.getSequenceID();
+			for(Bundle bun: itemService.getBundles(item, "THUMBNAIL")){
+				for(Bitstream bit: bun.getBitstreams()) {
+					if (bit == null) continue;
+					thumbnail = iurl.replace("handle", "bitstream/handle") + bit.getName() + "?sequence=" + bit.getSequenceID();
+					break;
 				}
 			}			
 		}

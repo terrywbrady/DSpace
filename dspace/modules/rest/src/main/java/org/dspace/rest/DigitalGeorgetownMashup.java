@@ -155,18 +155,24 @@ public class DigitalGeorgetownMashup extends Resource {
     				discoverResult = SearchUtils.getSearchService().search(context, query);    				    				    				
     			}
     			
-    			DGMashupResults results = new DGMashupResults(
-    				discoverResult.getTotalSearchResults(), 
-    				discoverResult.getStart(), 
-    				discoverResult.getMaxResults(), 
-    				search
-    			); 
-    			mashupStatus.setResults(results);
-    			for(DSpaceObject obj: discoverResult.getDspaceObjects()) {
-    				if (obj instanceof Item) {
-    					addResult(results, context, (Item)obj);
-    			        mashupStatus.success();
-    				}
+    			if (discoverResult != null) {
+        			DGMashupResults results = new DGMashupResults(
+           				discoverResult.getTotalSearchResults(), 
+           				discoverResult.getStart(), 
+           				discoverResult.getMaxResults(), 
+           				search
+           			); 
+           			mashupStatus.setResults(results);
+           			for(DSpaceObject obj: discoverResult.getDspaceObjects()) {
+           				if (obj instanceof Item) {
+           					addResult(results, context, (Item)obj);
+           			        mashupStatus.success();
+           				}
+           			}
+           			
+           			if (results.getResults().size() == 0) {
+           				mashupStatus.failure("No items found for search");
+           			}
     			}
     		} else {
     			mashupStatus.failure("The purpose of this service is to permit Blackboard to navigate DigitalGeorgetown");
@@ -175,6 +181,7 @@ public class DigitalGeorgetownMashup extends Resource {
         } 
         catch (Exception e)
         {
+        	e.printStackTrace();
             mashupStatus.failure("DG Mashup Error " + e.getMessage());
             processException("DG Mashup Error . Message: " + e.getClass() + " " + e.getMessage(), context);
         }

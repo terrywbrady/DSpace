@@ -151,7 +151,7 @@ public class Resource
         {
             context.abort();
             log.error("Something get wrong. Aborting context in finally statement.");
-            //throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
 

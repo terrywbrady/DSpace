@@ -109,7 +109,7 @@ public class DigitalGeorgetownMashup extends Resource {
 		org.dspace.core.Context context = null;
 		DGMashupResponse mashupStatus = new DGMashupResponse();
 		mashupStatus.setRequest(request.getQueryString());
-		mashupStatus.setApiUrl("https://" + request.getServerName() + "/static/rest/MashupApiDoc.html");
+		mashupStatus.setApiUrl("https://" + request.getServerName() + "/rest/static/reports/MashupApiDoc.html");
 		
         try {
             context = createContext(getUser(headers));

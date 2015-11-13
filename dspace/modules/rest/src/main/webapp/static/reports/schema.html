@@ -1,0 +1,33 @@
+<!-- 
+  Created by Terry Brady, Georgetown University Library
+  This code is an optional add-on for DSpace.
+  https://github.com/DSpace-Labs/DSpace-REST-Reports
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+    <!-- sortable.js can be obtained at http://www.kryogenix.org/code/browser/sorttable/ -->
+    <script src="../rest-aux/sorttable.js"></script> 
+
+    <script src="restReport.js"></script>
+    <script src="restSchemaReport.js"></script>
+    <script src="spin.js"></script>
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"></link>
+    <link rel="stylesheet" type="text/css" href="restClient.css"></link>
+    <style type="text/css">
+      th.reg, td.reg {width: 400px;}
+    </style>
+    <title>DSpace REST QC Client</title>
+</head>
+<body>
+<a href="/batch-tools/web">DigitalGeorgetown Web Tools</a>
+<hr/>
+<h1>Schema and Metadata Registry</h1>
+<button class="download">Download JSON</button>
+<div id='metadatadiv'>
+</div>
+</body>
+</html>

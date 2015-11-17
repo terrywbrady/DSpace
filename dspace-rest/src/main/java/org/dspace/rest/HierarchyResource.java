@@ -68,6 +68,7 @@ public class HierarchyResource extends Resource {
 		HierarchyRepository repo = new HierarchyRepository();
 		
         try {
+        	System.out.println("TBTB"+ConfigurationManager.getBooleanProperty("rest", "rest-hierarchy-authenticate", true));
             context = createContext(getUser(headers));
             if (!ConfigurationManager.getBooleanProperty("rest", "rest-hierarchy-authenticate", true)) {
                 context.turnOffAuthorisationSystem();            	

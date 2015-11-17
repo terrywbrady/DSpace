@@ -70,8 +70,9 @@ public class HierarchyResource extends Resource {
         try {
         	System.out.println("TBTB"+ConfigurationManager.getBooleanProperty("rest", "rest-hierarchy-authenticate", true));
             context = createContext(getUser(headers));
-            if (!ConfigurationManager.getBooleanProperty("rest", "rest-hierarchy-authenticate", true)) {
+            if (ConfigurationManager.getBooleanProperty("rest", "rest-hierarchy-authenticate", true) == false) {
                 context.turnOffAuthorisationSystem();            	
+            	System.out.println("turning off auth");
             }
 
             Site site = siteService.findSite(context);

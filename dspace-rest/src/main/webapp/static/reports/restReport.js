@@ -37,6 +37,9 @@ var Report = function() {
 		//return {"email" : "Email@my.edu","password" : "my-password"};
 		return undefined;
 	}
+	this.getLangSuffix = function(){
+		return "";
+	}
 	this.myAuth = new Auth(this.getLoginPayload());
 	this.myAuth.callback = function(data) {
 		self.spinner.stop();
@@ -61,15 +64,24 @@ var Report = function() {
         left: '600px' // Left position relative to parent		
 	});
 	
-	this.displayItems = function(itemsTitle, offset, limit, funcdec, funcinc) {
+	this.displayItems = function(itemsTitle, offset, limit, total, funcdec, funcinc) {
 		var count = $("#itemtable tr.data").length;
-		itemsTitle += " (" + (offset+1) + " - " + (offset+count) + ")";
-		$("#prev,#next").hide();
+		
+		var last = offset + limit;
+		var suff = (total == null) ? "" : " of " + total + " unfiltered; displaying " + count + " filtered" ;
+		if (total != null) {
+			last = (last > total) ? total : last;
+		}
+		
+		itemsTitle += " (" + (offset+1) + " - " + last + suff + ")";
+		$("#prev,#next").attr("disabled",true);
 		$("#itemdiv h3").text(itemsTitle);
-		if (offset > 0) $("#prev").show();
+		if (offset > 0) $("#prev").attr("disabled", false);
 		$("#prev").off("click").on("click", funcdec);
 		//in case of filters, always allow next
-		$("#next").show();
+		if (offset + limit  < total) {
+			$("#next").attr("disabled", false);			
+		}
 		$("#next").off("click").on("click", funcinc);
 	}
 	
@@ -365,6 +377,9 @@ var MetadataFields = function(report) {
 		var self = this;
 		var sel = $("<select name='show_fields'/>").attr("multiple","true").attr("size","8").appendTo("#show-fields");
 		$.each(this.metadataSchemas, function(index, schema){
+			if (schema.prefix == 'eperson') {
+				return;
+			}
 			$.each(schema.fields, function(findex, field) {
 				var name = field.name;
 				var opt = $("<option/>");

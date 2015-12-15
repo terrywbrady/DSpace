@@ -68,11 +68,21 @@ var Report = function() {
 		var count = $("#itemtable tr.data").length;
 		
 		var last = offset + limit;
-		var suff = (total == null) ? " of ??? " : " of " + total;
-		suff += " unfiltered; displaying " + count + " filtered" ;
-		if (total != null) {
-			last = (last > total) ? total : last;
+		var suff = "";
+		
+		if (count > 0 && total == 0) {
+			//total was not properly computed, ignore total value
+			total = null;
 		}
+		
+		if (total == null) {
+			last = offset + count;
+			suff = (count == limit) ? " of " + last + "+ " : " of " + last;
+		} else {
+			last = (last > total) ? total : last;
+			suff = " of " + total;
+		}
+		suff += " unfiltered; displaying " + count + " filtered" ;
 		
 		itemsTitle += " (" + (offset+1) + " - " + last + suff + ")";
 		$("#prev,#next").attr("disabled",true);

@@ -68,7 +68,8 @@ var Report = function() {
 		var count = $("#itemtable tr.data").length;
 		
 		var last = offset + limit;
-		var suff = (total == null) ? "" : " of " + total + " unfiltered; displaying " + count + " filtered" ;
+		var suff = (total == null) ? " of ??? " : " of " + total;
+		suff += " unfiltered; displaying " + count + " filtered" ;
 		if (total != null) {
 			last = (last > total) ? total : last;
 		}
@@ -79,7 +80,10 @@ var Report = function() {
 		if (offset > 0) $("#prev").attr("disabled", false);
 		$("#prev").off("click").on("click", funcdec);
 		//in case of filters, always allow next
-		if (offset + limit  < total) {
+		
+		if (total == null) {
+			$("#next").attr("disabled", false);				
+		} else if (offset + limit  < total) {
 			$("#next").attr("disabled", false);			
 		}
 		$("#next").off("click").on("click", funcinc);

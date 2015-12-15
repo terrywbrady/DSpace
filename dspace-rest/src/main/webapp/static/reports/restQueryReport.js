@@ -210,7 +210,6 @@ var QueryableMetadataFields = function(report) {
 		  .append($("<option value='q8'>Has non-full text in dc.description.provenance</option>"))
 		  .append($("<option value='q9'>Has empty metadata</option>"))
 		  .append($("<option value='q10'>Has unbreaking metadata in description</option>"))
-		  .append($("<option value='q11'>Has long metadata</option>"))
 		  .append($("<option value='q12'>Has XML entity in metadata</option>"))
 		  .append($("<option value='q13'>Has non-ascii character in metadata</option>"))
 	      .on("change",function(){
@@ -238,8 +237,6 @@ var QueryableMetadataFields = function(report) {
 				  self.drawFilterQuery("*","matches","^\\s*$");						
 			  } else if (val ==  'q10') {
 				  self.drawFilterQuery("dc.description.*","matches","^.*[^\\s]{50,}.*$");						
-			  } else if (val ==  'q11') {
-				  self.drawFilterQuery("*","matches","^((.|\r|\n){100,100}){50,}(.|\r|\n)*$"); //the {100,100}{50,} accommodates postgres limits						
 			  } else if (val ==  'q12') {
 				  self.drawFilterQuery("*","matches","^.*&#.*$");						
 			  } else if (val ==  'q13') {

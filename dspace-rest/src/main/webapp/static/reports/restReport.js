@@ -70,11 +70,6 @@ var Report = function() {
 		var last = offset + limit;
 		var suff = "";
 		
-		if (count > 0 && total == 0) {
-			//total was not properly computed, ignore total value
-			total = null;
-		}
-		
 		if (total == null) {
 			last = offset + count;
 			suff = (count == limit) ? " of " + last + "+ " : " of " + last;

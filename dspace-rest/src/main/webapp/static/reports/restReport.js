@@ -73,6 +73,9 @@ var Report = function() {
 		if (total == null) {
 			last = offset + count;
 			suff = (count == limit) ? " of " + last + "+ " : " of " + last;
+		} else if (limit == total) {
+			//total may only be accurate to page size
+			suff = " of " + total + "+ ";
 		} else {
 			last = (last > total) ? total : last;
 			suff = " of " + total;
@@ -89,6 +92,9 @@ var Report = function() {
 		if (total == null) {
 			$("#next").attr("disabled", false);				
 		} else if (offset + limit  < total) {
+			$("#next").attr("disabled", false);			
+		} else if (limit == total) {
+			//total may only be accurate to one page
 			$("#next").attr("disabled", false);			
 		}
 		$("#next").off("click").on("click", funcinc);

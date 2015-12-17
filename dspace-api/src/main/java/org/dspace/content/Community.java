@@ -46,9 +46,10 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     )
     private final List<Community> subCommunities = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "communities", cascade = {CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "parentCommunities", cascade = {CascadeType.PERSIST})
     private List<Community> parentCommunities = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "communities", cascade = {CascadeType.PERSIST})
     private final List<Collection> collections = new ArrayList<>();
 
     @OneToOne

@@ -38,7 +38,7 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     @Column(name="community_id", insertable = false, updatable = false)
     private Integer legacyId;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "subCommunities")
     @JoinTable(
             name = "community2community",
             joinColumns = {@JoinColumn(name = "parent_comm_id") },
@@ -46,7 +46,7 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     )
     private final List<Community> subCommunities = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "subCommunities")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "parentCommunities")
     private List<Community> parentCommunities = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "communities", cascade = {CascadeType.PERSIST})

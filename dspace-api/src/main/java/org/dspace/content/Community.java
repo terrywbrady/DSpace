@@ -76,6 +76,7 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
 
     void addSubCommunity(Community subCommunity)
     {
+    	log.warn("TBTB "+this.getHandle()+" AddSub "+subCommunity);
         getSubcommunities().add(subCommunity);
         setModified();
     }
@@ -153,6 +154,7 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
      */
     public List<Community> getSubcommunities()
     {
+    	log.warn("TBTB "+this.getHandle()+" GetSub");
         return subCommunities;
     }
 

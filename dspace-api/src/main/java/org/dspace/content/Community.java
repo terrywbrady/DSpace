@@ -166,17 +166,17 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
      */
     public List<Community> getParentCommunities()
     {
-    	log.warn("TBTB "+this.getHandle()+" Get");
+    	log.warn("TBTB "+this.getHandle()+" GetPar "+parentCommunities);
         return parentCommunities;
     }
 
     void addParentCommunity(Community parentCommunity) {
-    	log.warn("TBTB "+this.getHandle()+" Add:"+parentCommunity);
+    	log.warn("TBTB "+this.getHandle()+" AddPar:"+parentCommunity);
         //getParentCommunities().add(parentCommunity);
     }
 
     void clearParentCommunities(){
-    	log.warn("TBTB "+this.getHandle()+" Clear");
+    	log.warn("TBTB "+this.getHandle()+" ClearPar");
         this.parentCommunities.clear();
         this.parentCommunities = null;
     }

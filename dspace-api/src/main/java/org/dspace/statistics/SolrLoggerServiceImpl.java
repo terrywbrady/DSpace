@@ -570,9 +570,9 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
             List<Community> parentCommunities = comm.getParentCommunities();
             while (CollectionUtils.isNotEmpty(parentCommunities))
             {
-                for (int i = 0; i < parentCommunities.size(); i++) {
-                    Community community = parentCommunities.get(i);
-                    doc1.addField("owningComm", comm.getID());
+                for (Community parent : parentCommunities) {
+                    doc1.addField("owningComm", parent.getID());
+                    storeParents(doc1, parent);
                 }
             }
         }

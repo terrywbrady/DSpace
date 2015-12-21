@@ -167,8 +167,10 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
     public List<Community> getParentCommunities()
     {
     	log.warn("TBTB "+this.getHandle()+" GetPar "+parentCommunities);
-        return parentCommunities == null ? null : new ArrayList<Community>();
-    	//return parentCommunities;
+    	Exception e = new Exception("TBTB ex");
+    	e.printStackTrace();
+        //return parentCommunities == null ? null : new ArrayList<Community>();
+    	return parentCommunities;
     }
 
     void addParentCommunity(Community parentCommunity) {

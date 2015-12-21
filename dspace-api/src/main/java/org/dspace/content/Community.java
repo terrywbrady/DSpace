@@ -76,7 +76,6 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
 
     void addSubCommunity(Community subCommunity)
     {
-    	log.warn("TBTB "+this.getHandle()+" AddSub "+subCommunity);
         getSubcommunities().add(subCommunity);
         setModified();
     }
@@ -154,7 +153,6 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
      */
     public List<Community> getSubcommunities()
     {
-    	log.warn("TBTB "+this.getHandle()+" GetSub");
         return subCommunities;
     }
 
@@ -166,20 +164,14 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
      */
     public List<Community> getParentCommunities()
     {
-    	log.warn("TBTB "+this.getHandle()+" GetPar "+parentCommunities);
-    	Exception e = new Exception("TBTB ex");
-    	e.printStackTrace();
-        //return parentCommunities == null ? null : new ArrayList<Community>();
-    	return parentCommunities;
+        return parentCommunities;
     }
 
     void addParentCommunity(Community parentCommunity) {
-    	log.warn("TBTB "+this.getHandle()+" AddPar:"+parentCommunity);
         getParentCommunities().add(parentCommunity);
     }
 
     void clearParentCommunities(){
-    	log.warn("TBTB "+this.getHandle()+" ClearPar");
         this.parentCommunities.clear();
         this.parentCommunities = null;
     }

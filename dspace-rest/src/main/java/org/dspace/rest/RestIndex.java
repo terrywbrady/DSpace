@@ -9,9 +9,11 @@ package org.dspace.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,6 +31,8 @@ import org.dspace.eperson.service.EPersonService;
 import org.dspace.rest.common.Status;
 import org.dspace.rest.common.User;
 import org.dspace.rest.exceptions.ContextException;
+
+import com.hp.hpl.jena.sparql.function.library.leviathan.e;
 
 /**
  * Root of RESTful api. It provides login and logout. Also have method for
@@ -231,12 +235,12 @@ public class RestIndex {
     @GET
     @Path("/status")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Status status(@Context HttpHeaders headers) throws UnsupportedEncodingException {
-    	for(String s: headers.getRequestHeaders().keySet()) {
-        	log.error("TBTB status " + s);    		
-        	for (String v: headers.getRequestHeader(s)) {
-            	log.error("TBTB header " + s + "--" + v);    		        		
-        	}
+    public Status status(@Context HttpHeaders headers, @Context HttpServletRequest request) throws UnsupportedEncodingException {
+    	for(Enumeration<e> eh = request.getHeaderNames(); eh.hasMoreElements();) {
+    		String s = eh.nextElement().toString();
+        	log.error("TBTB status " + s);
+        	String v = request.getHeader(s);
+           	log.error("TBTB header " + s + "--" + v);    		        		
     	}
         org.dspace.core.Context context = null;
 

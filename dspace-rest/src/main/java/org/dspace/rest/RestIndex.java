@@ -206,6 +206,7 @@ public class RestIndex {
     @Path("/status")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Status status(@Context HttpHeaders headers) throws UnsupportedEncodingException {
+		log.error("TBTB RestIndex.status() "+headers.getRequestHeader("mail"), new Exception());
         org.dspace.core.Context context = null;
 
         try {

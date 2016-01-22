@@ -17,6 +17,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.dspace.authenticate.factory.AuthenticateServiceFactory;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
@@ -81,6 +82,23 @@ public class Resource
         return context;
     }
 
+    protected static org.dspace.core.Context createContext(EPerson person, HttpServletRequest request) throws ContextException
+    {
+        org.dspace.core.Context context = new org.dspace.core.Context();
+        //context.getDBConnection().setAutoCommit(false); // Disable autocommit.
+
+        if (person != null)
+        {
+            context.setCurrentUser(person);
+        } else {
+           	AuthenticateServiceFactory.getInstance().getAuthenticationService().authenticate(context, null, null, null, request);
+        }
+
+        return context;
+    }
+
+    
+    
     /**
      * Records a statistics event about an object used via REST API.
      * @param dspaceObject

@@ -245,7 +245,7 @@ public class RestIndex {
         org.dspace.core.Context context = null;
 
         try {
-            context = Resource.createContext(Resource.getUser(headers));
+            context = Resource.createContext(Resource.getUser(headers), request);
             EPerson ePerson = context.getCurrentUser();
 
             if(ePerson != null) {

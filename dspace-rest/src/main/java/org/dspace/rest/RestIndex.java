@@ -236,7 +236,7 @@ public class RestIndex {
     @Path("/status")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Status status(@Context HttpHeaders headers, @Context HttpServletRequest request) throws UnsupportedEncodingException {
-    	for(Enumeration eh = request.getAttributeNames(); eh.hasMoreElements();) {
+    	for(Enumeration eh = request.getHeaderNames(); eh.hasMoreElements();) {
     		String s = eh.nextElement().toString();
         	log.error("TBTB status " + s);
         	String v = request.getHeader(s);

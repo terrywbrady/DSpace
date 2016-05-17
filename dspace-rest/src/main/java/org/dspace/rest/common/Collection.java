@@ -70,7 +70,9 @@ public class Collection extends DSpaceObject {
         
         if(expandFields.contains("parentCommunityList") || expandFields.contains("all")) {
             List<org.dspace.content.Community> parentCommunities = collection.getCommunities();
+            log.error("TBTB " + parentCommunities.size());
             for(org.dspace.content.Community parentCommunity : parentCommunities) {
+                log.error("TBTB " + parentCommunity.getName());
                 this.addParentCommunityList(new Community(parentCommunity, servletContext, null, context));
             }
         } else {

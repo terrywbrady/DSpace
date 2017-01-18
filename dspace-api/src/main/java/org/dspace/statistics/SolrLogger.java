@@ -1362,13 +1362,19 @@ public class SolrLogger
     private static HttpSolrServer createCore(HttpSolrServer solr, String coreName) throws IOException, SolrServerException {
         String solrDir = ConfigurationManager.getProperty("dspace.dir") + File.separator + "solr" +File.separator;
         String baseSolrUrl = solr.getBaseURL().replace("statistics", "");
+        log.info("TBTB Creating core with name: " + coreName);
         CoreAdminRequest.Create create = new CoreAdminRequest.Create();
         create.setCoreName(coreName);
         create.setInstanceDir("statistics");
+        log.info("TBTB solr dir: " + solrDir);
+        log.info("TBTB data dir: " + solrDir + coreName + File.separator + "data");
         create.setDataDir(solrDir + coreName + File.separator + "data");
+        log.info("TBTB base solr url: " + baseSolrUrl);
         HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
+        log.info("TBTB Creating process: ");
         create.process(solrServer);
-        log.info("Created core with name: " + coreName);
+        log.info("TBTB Returning url: " + baseSolrUrl + "/" + coreName); 
+        log.info("TBTB Created core with name: " + coreName);
         return new HttpSolrServer(baseSolrUrl + "/" + coreName);
     }
 

@@ -19,7 +19,7 @@ before_install:
   - npm install -g npm@3.10.8
   - npm --version
   # Fix bad bootstrap install
-  - npm install bootstrap
+  - npm install bootstrap@3.4.0
   # Install Bower
   - npm install -g bower
   # Install Grunt & print version info

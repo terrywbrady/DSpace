@@ -19,7 +19,7 @@ before_install:
   - npm install -g npm@3.10.8
   - npm --version
   # Install Bower
-  - npm install -g bower
+  - npm install -g bower@1.7.9
   # Install Grunt & print version info
   - npm install -g grunt && npm install -g grunt-cli
   - grunt --version
@@ -31,7 +31,7 @@ before_install:
   # Install Compass & print version info
   - gem install compass -v 1.0.1
   - compass version
-  # Fix rb-notify compatibility
+  # Fix rb-inotify compatibility
   - gem install rb-inotify -v 0.9.10
 
 # Skip install stage, as we'll do it below

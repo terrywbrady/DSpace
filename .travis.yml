@@ -5,6 +5,9 @@ env:
   # Give Maven 1GB of memory to work with
   - MAVEN_OPTS=-Xmx1024M
 
+services:
+  docker
+
 # Install prerequisites for building Mirage2 more rapidly
 before_install:
   # Remove outdated settings.xml from Travis builds. Workaround for https://github.com/travis-ci/travis-ci/issues/4629
@@ -50,3 +53,5 @@ script:
   #        -Dmirage2.deps.included=false => Don't include Mirage2 build dependencies (We installed them in before_install)
   #        -P !assembly => SKIP the actual building of [src]/dspace/dspace-installer (as it can be memory intensive)
   - "cd dspace && mvn package -Dmirage2.on=true -Dmirage2.deps.included=false -P !assembly -B -V -Dsurefire.rerunFailingTestsCount=2"
+  # Add docker
+  - "docker build -t dspace/dspace:build -t Dockerfile.jdk8-test .

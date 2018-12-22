@@ -18,8 +18,6 @@ before_install:
   # Install npm 3.10.8 & print version info
   - npm install -g npm@3.10.8
   - npm --version
-  # Fix bad bootstrap install
-  - npm install bootstrap@3.4.0
   # Install Bower
   - npm install -g bower
   # Install Grunt & print version info
@@ -28,7 +26,7 @@ before_install:
   # Print ruby version info (should be installed)
   - ruby -v
   # Install Sass & print version info
-  - gem install sass -v 3.3.14
+  - gem install sass -v 3.4.25
   - sass -v
   # Install Compass & print version info
   - gem install compass -v 1.0.1

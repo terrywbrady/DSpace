@@ -76,6 +76,20 @@
         </step>
     </command>
     <command>
+        <name>dsdump</name>
+        <description>Dump DSpace property from dspace.cfg</description>
+        <step>
+            <class>org.dspace.app.util.ConfigurationDump</class>
+        </step>
+    </command>
+    <command>
+        <name>dsdump2</name>
+        <description>Dump DSpace property from dspace.cfg</description>
+        <step>
+            <class>my.test.Test</class>
+        </step>
+    </command>
+    <command>
         <name>dsprop</name>
         <description>View a DSpace property from dspace.cfg</description>
         <step>
